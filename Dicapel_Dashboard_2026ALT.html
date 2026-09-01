@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dicapel — Vendas 2026</title>
+<style>
+:root{--az:#1F3864;--az2:#2F5496;--az3:#D9E1F2;--vd:#375623;--vd2:#E2EFDA;--vm:#9C0006;--vm2:#FCE4D6;--bg:#f0f4fa;--card:#fff;--borda:#e4eaf4;--txt:#1a2340;--sub:#5a6a8a}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);font-size:14px}
+#login{position:fixed;inset:0;background:var(--az);display:flex;align-items:center;justify-content:center;z-index:999;padding:24px}
+.lbox{background:#fff;border-radius:20px;padding:32px 24px;width:100%;max-width:340px;text-align:center}
+.logo{font-size:42px;margin-bottom:12px}
+.lbox h2{color:var(--az);font-size:20px;font-weight:800;margin-bottom:6px}
+.lbox p{color:var(--sub);font-size:13px;margin-bottom:24px;line-height:1.5}
+.linput{width:100%;padding:13px 16px;border:2px solid var(--borda);border-radius:12px;font-size:16px;outline:none;margin-bottom:12px;transition:border .2s}
+.linput:focus{border-color:var(--az2)}
+.lbtn{width:100%;padding:14px;background:var(--az);color:#fff;border:none;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer}
+.lbtn:active{background:var(--az2)}
+.lerr{color:#c0392b;font-size:12px;margin-top:8px;min-height:16px}
+#app{display:none;min-height:100vh}
+.hdr{background:var(--az);padding:14px 16px 10px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr h1{color:#fff;font-size:17px;font-weight:700}
+.hdr p{color:#9bb3d4;font-size:11px;margin-top:2px}
+.mbar{background:#fff;border-bottom:1px solid var(--borda);overflow-x:auto;white-space:nowrap;padding:10px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.mbar::-webkit-scrollbar{display:none}
+.mpill{display:inline-block;padding:7px 15px;margin-right:6px;border-radius:20px;border:2px solid var(--borda);background:#fff;color:var(--sub);font-size:13px;font-weight:600;cursor:pointer;transition:all .15s}
+.mpill.on{color:#fff;border-color:transparent}
+.tabs{background:#fff;border-bottom:2px solid var(--borda);display:flex;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:11px 15px;font-size:13px;font-weight:600;color:var(--sub);cursor:pointer;border-bottom:2.5px solid transparent;white-space:nowrap;flex-shrink:0;transition:all .15s;margin-bottom:-2px}
+.tab.on{color:var(--az2);border-bottom-color:var(--az2)}
+.content{padding:14px 12px 32px}
+.sec{display:none}.sec.on{display:block}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.card{background:var(--card);border-radius:14px;padding:14px 13px;box-shadow:0 1px 5px rgba(0,0,0,.07)}
+.card.full{grid-column:1/-1}
+.clbl{font-size:10px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.cval{font-size:19px;font-weight:800;color:var(--az);line-height:1.1}
+.cval.sm{font-size:15px}
+.csub{font-size:11px;color:var(--sub);margin-top:4px}
+.bdg{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.bdg.up{background:var(--vd2);color:var(--vd)}.bdg.dn{background:var(--vm2);color:var(--vm)}
+.stitle{font-size:13px;font-weight:700;color:var(--az);padding:10px 0 8px;border-bottom:2px solid var(--az3);margin-bottom:10px}
+.blist{background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 1px 5px rgba(0,0,0,.07);margin-bottom:14px}
+.bitem{padding:11px 13px;border-bottom:1px solid var(--borda)}
+.bitem:last-child{border-bottom:none}
+.brow{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.bname{font-size:12px;font-weight:600;color:var(--txt);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-right:8px}
+.bval{font-size:12px;font-weight:700;color:var(--az2);white-space:nowrap}
+.btrack{height:5px;background:var(--az3);border-radius:3px;overflow:hidden}
+.bfill{height:100%;border-radius:3px;transition:width .35s}
+.bpct{font-size:10px;color:var(--sub);margin-top:3px}
+.tog{display:flex;background:var(--az3);border-radius:10px;padding:3px;margin-bottom:12px}
+.tbtn{flex:1;padding:7px;text-align:center;border-radius:8px;font-size:12px;font-weight:600;color:var(--sub);cursor:pointer;transition:all .15s}
+.tbtn.on{background:#fff;color:var(--az2);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.ufgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.ufcard{background:var(--card);border-radius:12px;padding:11px 13px;box-shadow:0 1px 4px rgba(0,0,0,.07)}
+.ufname{font-size:16px;font-weight:800;color:var(--az)}
+.ufval{font-size:13px;font-weight:600;margin:3px 0}
+.ufpct{font-size:11px;color:var(--sub)}
+.evowrap{background:var(--card);border-radius:14px;padding:16px;box-shadow:0 1px 5px rgba(0,0,0,.07);margin-bottom:14px}
+.evotitle{font-size:11px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px}
+.chart{position:relative;height:90px;display:flex;align-items:flex-end;gap:3px;padding-bottom:20px}
+.bcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;cursor:pointer}
+.bbar{width:100%;border-radius:4px 4px 0 0;min-height:3px;transition:opacity .2s}
+.bbar.cur{box-shadow:0 0 0 2px #fff,0 0 0 3.5px var(--az2)}
+.blbl{font-size:9px;color:var(--sub);font-weight:600;position:absolute;bottom:0;left:50%;transform:translateX(-50%);white-space:nowrap}
+.cmprow{display:flex;gap:8px;margin-bottom:14px}
+.cmpcard{flex:1;background:var(--card);border-radius:12px;padding:12px 8px;box-shadow:0 1px 4px rgba(0,0,0,.07);text-align:center}
+.cmplbl{font-size:9px;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.4px}
+.cmpval{font-size:14px;font-weight:800;color:var(--az);margin:4px 0 3px}
+.cmpvar{font-size:12px;font-weight:700}
+.cmpvar.up{color:var(--vd)}.cmpvar.dn{color:var(--vm)}
+</style>
+</head>
+<body>
+<div id="login">
+  <div class="lbox">
+    <div class="logo">📦</div>
+    <h2>Dicapel Vendas 2026</h2>
+    <p>Dashboard restrito de vendas.<br>Digite a senha para acessar.</p>
+    <input class="linput" type="password" id="pwd" placeholder="Senha"
+           onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="lbtn" onclick="doLogin()">Entrar</button>
+    <div class="lerr" id="err"></div>
+  </div>
+</div>
+<div id="app">
+  <div class="hdr"><h1>📦 Dicapel — Vendas 2026</h1><p id="hsub">Selecione um mês</p></div>
+  <div class="mbar" id="mbar"></div>
+  <div class="tabs">
+    <div class="tab on"  onclick="setTab('resumo',this)">Resumo</div>
+    <div class="tab" onclick="setTab('familias',this)">Famílias</div>
+    <div class="tab" onclick="setTab('reps',this)">Representantes</div>
+    <div class="tab" onclick="setTab('estados',this)">Estados</div>
+    <div class="tab" onclick="setTab('clientes',this)">Clientes</div>
+    <div class="tab" onclick="setTab('evolucao',this)">Evolução</div>
+  </div>
+  <div class="content">
+    <div class="sec on" id="sec-resumo"></div>
+    <div class="sec" id="sec-familias"></div>
+    <div class="sec" id="sec-reps"></div>
+    <div class="sec" id="sec-estados"></div>
+    <div class="sec" id="sec-clientes"></div>
+    <div class="sec" id="sec-evolucao"></div>
+  </div>
+</div>
+<script>
+const SK="dicapel2026";
+const RAW={"JAN": {"tp": 2014846.0, "tv": 16616654.46, "com_p": 1359752.0, "com_v": 12316405.29, "imu_p": 655094.0, "imu_v": 4300249.17, "pm": 8.2471, "fam": [["PAPEL OFF SET", 486246.0, 3857701.23], ["CARTAO TRIPLEX-SOLIDO", 470656.0, 3481320.78], ["PAPEL COUCHE", 374169.0, 2712849.28], ["CARTAO DUPLEX-FFP BOBINA", 256698.0, 2082998.93], ["CHAMEX/HP", 154281.0, 1441248.76], ["05.02", 30847.0, 145795.13], ["PAPEL KRAFT EXTENSIVEL", 29389.0, 298921.5], ["PAPEL ADESIVO", 26879.0, 576439.25], ["CARTAO DUPLEX-PADRAO", 25960.0, 260891.05], ["PAPEL KRAFT NATURAL", 21156.0, 172400.31]], "rep": [["TATIANE T. NUNES", 306923.0, 2514671.2], ["ALCIR", 297759.0, 2271514.8], ["JAIMAR ELIAS MACHADO", 260842.0, 2031567.52], ["DAIANE HILLE", 227799.0, 1852719.33], ["JETRO GOULART", 169940.0, 1392445.32], ["REP 32", 104599.0, 874248.9], ["GUILHERME PIAULINO", 103672.0, 916924.74], ["REP 47", 80791.0, 722867.68], ["REP 34", 79985.0, 669364.47], ["ALCIR MINOZZO", 70345.0, 473448.11]], "uf": [["SC", 1020796.0, 8724124.05], ["RS", 512186.0, 4080692.15], ["PR", 459478.0, 3520086.62], ["MT", 16600.0, 205357.03], ["MS", 2280.0, 31356.61], ["SP", 1617.0, 37416.0], ["AL", 1585.0, 15036.8], ["GO", 303.0, 2585.2]], "cli": [["ALBAN CREMA E CIA LTDA", 46335.0, 316238.98], ["EDELBRA INDUSTRIA DE LIVROS LTDA", 43335.0, 293906.91], ["OFICINA DO IMPRESSO GRAFICA E EDITORA LTDA.", 36347.0, 243605.06], ["IMPRIMAX GRAFICA E EMBALAGENS LTDA.", 35394.0, 282781.2], ["IMPRESSUL INDUSTRIA GRAFICA LTDA", 32805.0, 227932.06], ["HELLOGRAF ARTES GRAFICAS LTDA", 31535.0, 222620.18], ["BLUMEN INDUSTRIA DE EMBALAGENS LTDA", 30963.0, 212213.81], ["TIPOTIL - INDUSTRIA GRAFICA LTDA", 29896.0, 201137.28], ["LALUH COMERCIO DE PAPELARIA E REPRESENTACOES COMERCIAIS LTDA", 28055.0, 228318.64], ["LORIGRAF GRAFICA E EDITORA LTDA", 27449.0, 187707.2]]}, "FEV": {"tp": 2006027.0, "tv": 16254701.5, "com_p": 1296300.0, "com_v": 11684674.28, "imu_p": 709727.0, "imu_v": 4570027.22, "pm": 8.1029, "fam": [["CARTAO TRIPLEX-SOLIDO", 469721.0, 3388439.61], ["PAPEL COUCHE", 459787.0, 3257908.78], ["PAPEL OFF SET", 427652.0, 3389678.82], ["CARTAO DUPLEX-FFP BOBINA", 200778.0, 1617656.88], ["CHAMEX/HP", 130916.0, 1217972.44], ["PAPEL KRAFT EXTENSIVEL", 51607.0, 512220.23], ["05.02", 43699.0, 221231.26], ["CARTAO DUPLEX-PADRAO", 37736.0, 356988.3], ["CARTAO REVESTIDO-SOLIDO", 28381.0, 305800.84], ["PAPEL ADESIVO", 20991.0, 440495.09]], "rep": [["ALCIR", 326116.0, 2459390.06], ["TATIANE T. NUNES", 274594.0, 2193152.35], ["JAIMAR ELIAS MACHADO", 245784.0, 1819466.93], ["JETRO GOULART", 240913.0, 1915825.11], ["DAIANE HILLE", 238996.0, 1807762.7], ["REP 47", 113718.0, 1024375.13], ["REP 32", 93502.0, 775431.5], ["DICAPEL PAPEIS E EMBALAGENS", 87987.0, 611528.42], ["GUILHERME PIAULINO", 78691.0, 692681.22], ["ALCIR MINOZZO", 63607.0, 476549.78]], "uf": [["SC", 1018227.0, 8558322.31], ["RS", 480572.0, 3751009.34], ["PR", 476813.0, 3560053.35], ["MT", 21105.0, 248919.13], ["MS", 7823.0, 118758.27], ["MG", 1487.0, 17639.1]], "cli": [["BLUMEN INDUSTRIA DE EMBALAGENS LTDA", 75901.0, 502484.16], ["ALBAN CREMA E CIA LTDA", 72582.0, 476296.94], ["JOSE DOMINGUES LINARES E CIA LTDA", 55179.0, 372269.03], ["GRAFICA E EDITORA GRAFBELLO LTDA", 48917.0, 325191.59], ["GRAFICA DALLA ROSA LTDA", 48215.0, 376936.6], ["EDELBRA INDUSTRIA DE LIVROS LTDA", 45270.0, 305890.87], ["LORIGRAF GRAFICA E EDITORA LTDA", 42603.0, 310686.25], ["PATRAS SERVICOS GRAFICOS EIRELI", 41918.0, 257048.83], ["MAXI GRAFICA E EDITORA LTDA", 41118.0, 254639.96], ["LALUH COMERCIO DE PAPELARIA E REPRESENTACOES COMERCIAIS LTDA", 34240.0, 277575.33]]}, "MAR": {"tp": 2458457.0, "tv": 20060896.25, "com_p": 1638376.0, "com_v": 14768464.8, "imu_p": 820081.0, "imu_v": 5292431.45, "pm": 8.16, "fam": [["PAPEL OFF SET", 571622.0, 4459609.7], ["CARTAO TRIPLEX-SOLIDO", 529425.0, 3930871.98], ["PAPEL COUCHE", 485419.0, 3445551.92], ["CARTAO DUPLEX-FFP BOBINA", 320700.0, 2549971.52], ["CHAMEX/HP", 166129.0, 1535028.48], ["PAPEL KRAFT EXTENSIVEL", 64899.0, 662806.62], ["05.02", 50726.0, 226780.02], ["CARTAO DUPLEX-PADRAO", 36905.0, 351875.66], ["CARTAO REVESTIDO-SOLIDO", 33508.0, 321364.91], ["16.06", 26455.0, 277190.74]], "rep": [["ALCIR", 541226.0, 3941794.29], ["TATIANE T. NUNES", 356495.0, 2828354.23], ["JAIMAR ELIAS MACHADO", 235049.0, 1873178.71], ["DAIANE HILLE", 228837.0, 1800295.53], ["REP 32", 179762.0, 1378821.19], ["JETRO GOULART", 177476.0, 1430798.33], ["ALCIR MINOZZO", 137331.0, 1097032.28], ["GUILHERME PIAULINO", 92830.0, 799821.74], ["REP 34", 92724.0, 794247.99], ["DICAPEL PAPEIS E EMBALAGENS", 88804.0, 739864.36]], "uf": [["SC", 1186277.0, 9987684.99], ["RS", 668021.0, 5233561.66], ["PR", 542970.0, 4126813.31], ["MT", 23336.0, 312038.72], ["SP", 19173.0, 161319.35], ["MS", 13308.0, 161591.88], ["MG", 3166.0, 56259.67], ["AL", 1316.0, 13756.4], ["GO", 600.0, 5153.53], ["AP", 190.0, 1864.75], ["RJ", 100.0, 851.99]], "cli": [["BLUMEN INDUSTRIA DE EMBALAGENS LTDA", 95063.0, 656753.14], ["GRAFICA E EDITORA GRAFBELLO LTDA", 86402.0, 552215.58], ["SOLUPACK IND GRAF LTDA", 61684.0, 472830.92], ["MAXI GRAFICA E EDITORA LTDA", 56504.0, 391811.93], ["INDUSTRIA GRAFICA ESCALA LTDA", 54929.0, 357778.28], ["LALUH COMERCIO DE PAPELARIA E REPRESENTACOES COMERCIAIS LTDA", 50113.0, 404185.35], ["ALBAN CREMA E CIA LTDA", 49997.0, 330876.74], ["GRAFICA EDITORA PALLOTTI DE SANTA MARIA", 45812.0, 323885.85], ["EDELBRA INDUSTRIA DE LIVROS LTDA", 43365.0, 288389.97], ["JOSE DOMINGUES LINARES E CIA LTDA", 42944.0, 314897.21]]}, "ABR": {"tp": 2094893.0, "tv": 17312357.68, "com_p": 1542989.0, "com_v": 13786208.92, "imu_p": 551905.0, "imu_v": 3526148.76, "pm": 8.2641, "fam": [["CARTAO TRIPLEX-SOLIDO", 479403.0, 3517035.49], ["PAPEL COUCHE", 449447.0, 3254823.6], ["PAPEL OFF SET", 352916.0, 2909229.23], ["CARTAO DUPLEX-FFP BOBINA", 282066.0, 2290487.9], ["CHAMEX/HP", 161851.0, 1518420.83], ["PAPEL KRAFT EXTENSIVEL", 74469.0, 749026.79], ["05.02", 45958.0, 223308.42], ["CARTAO DUPLEX-PADRAO", 27036.0, 267607.4], ["01.09", 23601.0, 199197.3], ["PAPEL ADESIVO", 23494.0, 503227.75]], "rep": [["TATIANE T. NUNES", 299275.0, 2353517.94], ["ALCIR", 285957.0, 2203399.0], ["DAIANE HILLE", 213581.0, 1704149.14], ["JAIMAR ELIAS MACHADO", 179187.0, 1444256.78], ["GUILHERME PIAULINO", 168315.0, 1383773.36], ["DICAPEL PAPEIS E EMBALAGENS", 155468.0, 1081523.91], ["ALCIR MINOZZO", 132910.0, 1050275.64], ["REP 32", 100302.0, 812610.55], ["REP 47", 94410.0, 880213.75], ["JETRO GOULART", 87872.0, 704685.18]], "uf": [["SC", 1138361.0, 9285846.8], ["PR", 456146.0, 3766540.18], ["RS", 442103.0, 3597769.81], ["MT", 24258.0, 293512.84], ["SP", 20416.0, 204057.19], ["MS", 13312.0, 162006.36], ["GO", 240.0, 2111.26], ["AP", 57.0, 513.24]], "cli": [["IMPRESSUL INDUSTRIA GRAFICA LTDA", 63313.0, 433509.9], ["KEOPS INDUSTRIA GRAFICA S/A", 49052.0, 424954.44], ["BLUMEN INDUSTRIA DE EMBALAGENS LTDA", 47556.0, 332245.55], ["LALUH COMERCIO DE PAPELARIA E REPRESENTACOES COMERCIAIS LTDA", 42714.0, 350285.23], ["JOSE DOMINGUES LINARES E CIA LTDA", 39412.0, 313898.26], ["EMBALAGEM CARTON PACK LTDA", 37478.0, 306256.87], ["GRAFICA E EDITORA GANDREI LTDA", 31979.0, 205483.38], ["POTENZA INDUSTRIA DE COMERCIO DE ETIQUETAS LTDA ME", 29356.0, 225010.24], ["TIPOTIL - INDUSTRIA GRAFICA LTDA", 28238.0, 185929.54], ["EDITORA NOTICIAS DO DIA LTDA", 28119.0, 144840.97]]}, "MAI": {"tp": 2200946.0, "tv": 17820145.55, "com_p": 1565843.0, "com_v": 13823402.57, "imu_p": 635103.0, "imu_v": 3996742.98, "pm": 8.0966, "fam": [["CARTAO TRIPLEX-SOLIDO", 593992.0, 4102425.67], ["PAPEL COUCHE", 428411.0, 2993818.48], ["PAPEL OFF SET", 366185.0, 2924258.45], ["CARTAO DUPLEX-FFP BOBINA", 305841.0, 2458802.54], ["CHAMEX/HP", 133225.0, 1252152.64], ["PAPEL KRAFT EXTENSIVEL", 65817.0, 693371.3], ["05.02", 56293.0, 261632.27], ["16.06", 38222.0, 473437.2], ["PAPEL ADESIVO", 28102.0, 603884.77], ["01.09", 26386.0, 225229.71]], "rep": [["ALCIR", 377546.0, 2774353.03], ["TATIANE T. NUNES", 323564.0, 2547974.49], ["JAIMAR ELIAS MACHADO", 257240.0, 1964150.02], ["ALCIR MINOZZO", 223874.0, 1450415.08], ["GUILHERME PIAULINO", 207947.0, 1723863.1], ["DAIANE HILLE", 183400.0, 1496778.64], ["REP 32", 134150.0, 1029501.68], ["PABLO PADILHA MARTINS", 81930.0, 739557.75], ["DICAPEL PAPEIS E EMBALAGENS", 81528.0, 659147.13], ["REP 47", 71233.0, 656923.29]], "uf": [["SC", 1260742.0, 10156101.54], ["RS", 516733.0, 4022428.96], ["PR", 373602.0, 3044502.64], ["MT", 30635.0, 389032.94], ["MS", 9862.0, 123664.0], ["SP", 6875.0, 61021.71], ["MG", 1857.0, 17890.69], ["GO", 500.0, 4259.94], ["RJ", 140.0, 1243.13]], "cli": [["CARTONAGEM BATISTENSE LTDA", 151315.0, 877627.0], ["BLUMEN INDUSTRIA DE EMBALAGENS LTDA", 78109.0, 539908.79], ["ALBAN CREMA E CIA LTDA", 55083.0, 371671.56], ["IMPRESSUL INDUSTRIA GRAFICA LTDA", 43996.0, 303785.0], ["GRAFICA E EDITORA GRAFBELLO LTDA", 38910.0, 214973.41], ["MAXI GRAFICA E EDITORA LTDA", 38340.0, 260024.38], ["LALUH COMERCIO DE PAPELARIA E REPRESENTACOES COMERCIAIS LTDA", 36378.0, 293879.04], ["LORIGRAF GRAFICA E EDITORA LTDA", 34384.0, 245318.51], ["TIPOTIL - INDUSTRIA GRAFICA LTDA", 34086.0, 215807.29], ["INDUSTRIA GRAFICA ESCALA LTDA", 31773.0, 201922.98]]}, "JUN": {"tp": 1948981.0, "tv": 16015686.19, "com_p": 1335828.0, "com_v": 12077321.81, "imu_p": 613153.0, "imu_v": 3938364.38, "pm": 8.2175, "fam": [["CARTAO TRIPLEX-SOLIDO", 486056.0, 3503194.26], ["PAPEL OFF SET", 422043.0, 3341728.76], ["PAPEL COUCHE", 367161.0, 2564499.25], ["CARTAO DUPLEX-FFP BOBINA", 258684.0, 2104362.86], ["CHAMEX/HP", 131191.0, 1237691.85], ["05.02", 34066.0, 170162.04], ["CARTAO REVESTIDO-SOLIDO", 32927.0, 327161.9], ["CARTAO DUPLEX-PADRAO", 32624.0, 318342.6], ["PAPEL KRAFT EXTENSIVEL", 29089.0, 268704.77], ["PAPEL ADESIVO", 26942.0, 575009.48]], "rep": [["ALCIR", 333072.0, 2529964.38], ["TATIANE T. NUNES", 296885.0, 2355200.45], ["DAIANE HILLE", 242049.0, 1816079.86], ["GUILHERME PIAULINO", 196349.0, 1581721.65], ["JAIMAR ELIAS MACHADO", 183016.0, 1383171.17], ["REP 32", 133351.0, 1088960.62], ["ALCIR MINOZZO", 119690.0, 983051.98], ["DICAPEL PAPEIS E EMBALAGENS", 81856.0, 584118.4], ["REP 47", 72770.0, 688541.23], ["PABLO PADILHA MARTINS", 69561.0, 630876.29]], "uf": [["SC", 1041733.0, 8598647.12], ["RS", 477305.0, 3766362.15], ["PR", 407603.0, 3364537.99], ["MT", 14166.0, 183178.36], ["MG", 4255.0, 55550.9], ["SP", 2147.0, 28810.0], ["MS", 1502.0, 16299.06], ["GO", 140.0, 1192.91], ["RJ", 130.0, 1107.7]], "cli": [["ALBAN CREMA E CIA LTDA", 73782.0, 500817.91], ["BLUMEN INDUSTRIA DE EMBALAGENS LTDA", 50449.0, 347131.71], ["POTENZA INDUSTRIA DE COMERCIO DE ETIQUETAS LTDA ME", 44448.0, 371265.16], ["HELLOGRAF ARTES GRAFICAS LTDA", 43981.0, 308132.42], ["IMPRESSUL INDUSTRIA GRAFICA LTDA", 41927.0, 283454.94], ["EDITORA E GRAFICA ODORIZZI LTDA", 38549.0, 255452.33], ["MAXI GRAFICA E EDITORA LTDA", 37998.0, 265227.15], ["PATRAS SERVICOS GRAFICOS EIRELI", 36744.0, 229625.74], ["GRAFICA E EDITORA POSIGRAF LTDA", 36638.0, 239507.89], ["INDUSTRIA GRAFICA ESCALA LTDA", 34450.0, 215207.51]]}, "JUL": {"tp": 2311513.0, "tv": 18673293.14, "com_p": 1608290.0, "com_v": 14193748.36, "imu_p": 703222.0, "imu_v": 4479544.78, "pm": 8.0784, "fam": [["CARTAO TRIPLEX-SOLIDO", 601499.0, 4276819.46], ["PAPEL COUCHE", 524574.0, 3712707.51], ["PAPEL OFF SET", 415143.0, 3339740.69], ["CARTAO DUPLEX-FFP BOBINA", 269915.0, 2188759.7], ["CHAMEX/HP", 122092.0, 1178789.68], ["PAPEL KRAFT EXTENSIVEL", 68237.0, 669183.65], ["05.02", 44991.0, 245062.21], ["CARTAO REVESTIDO-SOLIDO", 35487.0, 339064.76], ["01.09", 33101.0, 267605.67], ["PAPEL ADESIVO", 30517.0, 663302.31]], "rep": [["JETRO GOULART", 347854.0, 2819300.23], ["TATIANE T. NUNES", 328222.0, 2544359.33], ["DAIANE HILLE", 302616.0, 2287350.83], ["ALCIR", 279825.0, 2196008.3], ["JAIMAR ELIAS MACHADO", 261370.0, 2043017.19], ["ALCIR MINOZZO", 129274.0, 964286.12], ["DICAPEL PAPEIS E EMBALAGENS", 127283.0, 985092.84], ["REP 32", 108095.0, 903055.27], ["REP 47", 97878.0, 886220.52], ["GUILHERME PIAULINO", 72062.0, 560473.86]], "uf": [["SC", 1198561.0, 9834077.31], ["RS", 582635.0, 4621328.54], ["PR", 494131.0, 3796853.03], ["MT", 22542.0, 261675.6], ["MS", 12284.0, 149266.61], ["MG", 780.0, 5150.0], ["GO", 300.0, 2556.23], ["RJ", 280.0, 2385.82]], "cli": [["COAN INDUSTRIAL GRAFICA LTDA", 82537.0, 509584.4], ["IMPRESSUL INDUSTRIA GRAFICA LTDA", 63695.0, 416409.97], ["MAXI GRAFICA E EDITORA LTDA", 59440.0, 405275.33], ["HELLOGRAF ARTES GRAFICAS LTDA", 40931.0, 296590.42], ["JOSE DOMINGUES LINARES E CIA LTDA", 39067.0, 290821.98], ["EMBALAGEM CARTON PACK LTDA", 39016.0, 327121.61], ["LORIGRAF GRAFICA E EDITORA LTDA", 38348.0, 254495.1], ["PATRAS SERVICOS GRAFICOS EIRELI", 37700.0, 233879.04], ["GRAFICA E EDITORA 3 DE MAIO LTDA", 36473.0, 266270.3], ["GRAFICA MERCURIO LTDA", 35582.0, 267355.08]]}, "AGO": {"tp": 2923715.0, "tv": 23898988.12, "com_p": 2178637.0, "com_v": 19163521.34, "imu_p": 745078.0, "imu_v": 4735466.78, "pm": 8.1742, "fam": [["PAPEL COUCHE", 1004901.0, 7110303.23], ["CARTAO TRIPLEX-SOLIDO", 664651.0, 4780082.86], ["PAPEL OFF SET", 512198.0, 4175977.14], ["CARTAO DUPLEX-FFP BOBINA", 186018.0, 1512175.21], ["CHAMEX/HP", 165375.0, 1559691.04], ["PAPEL KRAFT EXTENSIVEL", 70086.0, 745881.58], ["PAPEL ADESIVO", 54110.0, 1286148.09], ["PAPEL KRAFT NATURAL", 53545.0, 456113.79], ["CARTAO REVESTIDO-SOLIDO", 28318.0, 246579.22], ["CARTAO KRAFT", 24531.0, 208509.11]], "rep": [["JETRO GOULART", 638652.0, 4976306.88], ["DAIANE HILLE", 417607.0, 3330530.23], ["TATIANE T. NUNES", 398274.0, 3282443.01], ["ALCIR", 322915.0, 2417136.63], ["JAIMAR ELIAS MACHADO", 268984.0, 2137119.24], ["REP 32", 183000.0, 1329875.63], ["DICAPEL PAPEIS E EMBALAGENS", 159358.0, 1409231.38], ["REP 47", 113354.0, 1038202.28], ["ALCIR MINOZZO", 108097.0, 815170.11], ["REP 34", 65650.0, 598334.0]], "uf": [["SC", 1465821.0, 12479021.85], ["PR", 718567.0, 5600028.24], ["RS", 696628.0, 5294509.85], ["MT", 24346.0, 313956.65], ["MS", 12984.0, 159007.07], ["CE", 3326.0, 23257.87], ["AL", 820.0, 7783.32], ["BA", 577.0, 15085.9], ["DF", 423.0, 4441.49], ["RJ", 122.0, 1043.8], ["GO", 100.0, 852.08]], "cli": [["JOSE DOMINGUES LINARES E CIA LTDA", 136491.0, 968041.39], ["HELLOGRAF ARTES GRAFICAS LTDA", 103732.0, 775494.58], ["DELTA EDITORA E SERVICOS GRAFICOS LTDA ME", 93847.0, 658825.05], ["GRAFICA VOLPATO LTDA", 68966.0, 671140.88], ["LORIGRAF GRAFICA E EDITORA LTDA", 68060.0, 538604.82], ["OFICINA DO IMPRESSO GRAFICA E EDITORA LTDA.", 67538.0, 458871.3], ["VENTISOL INDUSTRIA E COMERCIO S/A", 44398.0, 380939.33], ["GRAF E EDITORA COMUNICACAO IMPRESSA LTDA", 39927.0, 235382.75], ["CROMO - GRAFICA E EDITORA LTDA", 39510.0, 290843.63], ["MAXIMA GRAFICA E EDITORA LTDA", 38343.0, 299187.28]]}};
+
+const MESES=Object.keys(RAW);
+const CORES=['#2F5496','#1A5276','#145A32','#6E2F8A','#7D6608','#AE0000','#006064','#784212'];
+let mes=MESES[MESES.length-1],tab='resumo',met='peso';
+
+function doLogin(){
+  const v=document.getElementById('pwd').value;
+  if(v===SK){
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    init();
+  } else {
+    const e=document.getElementById('err');
+    e.textContent='Senha incorreta. Tente novamente.';
+    document.getElementById('pwd').value='';
+    setTimeout(()=>e.textContent='',3000);
+  }
+}
+
+function fkg(v){return (v/1000).toFixed(1).replace('.',',')+' t';}
+function fR(v){return 'R$ '+(v/1e6).toFixed(2).replace('.',',')+' M';}
+function fpct(v){return (v>=0?'+':'')+v.toFixed(1)+'%';}
+function vc(v){return v>=0?'up':'dn';}
+function pv(a,b){return a>0?(b-a)/a*100:0;}
+
+function init(){buildPills();render();}
+
+function buildPills(){
+  document.getElementById('mbar').innerHTML=MESES.map((m,i)=>
+    '<div class="mpill '+(m===mes?'on':'')+'" onclick="setMes(\''+m+'\')"'+
+    (m===mes?' style="background:'+CORES[i]+'"':'')+'>'+m+'</div>'
+  ).join('');
+}
+
+function setMes(m){mes=m;buildPills();render();}
+
+function setTab(t,el){
+  tab=t;
+  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('on'));
+  el.classList.add('on');
+  document.querySelectorAll('.sec').forEach(e=>e.classList.remove('on'));
+  document.getElementById('sec-'+t).classList.add('on');
+  render();
+}
+
+function setMet(m){met=m;render();}
+
+function render(){
+  const d=RAW[mes],idx=MESES.indexOf(mes),cor=CORES[idx];
+  const ant=idx>0?RAW[MESES[idx-1]]:null;
+  document.getElementById('hsub').textContent=mes+' 2026';
+  if(tab==='resumo')   rResumo(d,ant,cor,idx);
+  if(tab==='familias') rList('sec-familias',d.fam,d.tp,d.tv,cor);
+  if(tab==='reps')     rList('sec-reps',d.rep,d.tp,d.tv,cor);
+  if(tab==='estados')  rEstados(d,cor);
+  if(tab==='clientes') rList('sec-clientes',d.cli,d.tp,d.tv,cor);
+  if(tab==='evolucao') rEvo(cor,idx);
+}
+
+function badge(v){return '<span class="bdg '+vc(v)+'">'+fpct(v)+'</span>';}
+
+function rResumo(d,ant,cor,idx){
+  const vp=ant?pv(ant.tp,d.tp):null,vv=ant?pv(ant.tv,d.tv):null,vpm=ant?pv(ant.pm,d.pm):null;
+  const ac_tp=MESES.slice(0,idx+1).reduce((s,m)=>s+RAW[m].tp,0);
+  const ac_tv=MESES.slice(0,idx+1).reduce((s,m)=>s+RAW[m].tv,0);
+  const cp=d.tp>0?d.com_p/d.tp*100:0, ip=d.tp>0?d.imu_p/d.tp*100:0;
+  const antLbl=ant?MESES[MESES.indexOf(mes)-1]:'';
+  let h='<div class="cards">'
+    +'<div class="card"><div class="clbl">Volume</div><div class="cval">'+fkg(d.tp)+'</div>'
+    +'<div class="csub">'+(vp!==null?badge(vp)+' vs '+antLbl:'&nbsp;')+'</div></div>'
+    +'<div class="card"><div class="clbl">Faturamento</div><div class="cval sm">'+fR(d.tv)+'</div>'
+    +'<div class="csub">'+(vv!==null?badge(vv)+' vs '+antLbl:'&nbsp;')+'</div></div>'
+    +'<div class="card"><div class="clbl">Preço Médio</div><div class="cval sm">R$ '+d.pm.toFixed(2).replace('.',',')+'/kg</div>'
+    +'<div class="csub">'+(vpm!==null?badge(vpm)+' vs '+antLbl:'&nbsp;')+'</div></div>'
+    +'<div class="card"><div class="clbl">Acumulado '+mes+'</div><div class="cval sm">'+fR(ac_tv)+'</div>'
+    +'<div class="csub">'+fkg(ac_tp)+' acumulado</div></div>'
+    +'</div>';
+  h+='<div class="stitle">Comercial vs Imune</div><div class="cards" style="margin-bottom:14px">'
+    +'<div class="card" style="border-top:3px solid '+cor+'">'
+    +'<div class="clbl">Comercial</div><div class="cval sm">'+fkg(d.com_p)+'</div>'
+    +'<div class="csub">'+cp.toFixed(1).replace('.',',')+'% do total</div>'
+    +'<div class="btrack" style="margin-top:8px"><div class="bfill" style="width:'+cp+'%;background:'+cor+'"></div></div></div>'
+    +'<div class="card" style="border-top:3px solid #784212">'
+    +'<div class="clbl">Imune</div><div class="cval sm">'+fkg(d.imu_p)+'</div>'
+    +'<div class="csub">'+ip.toFixed(1).replace('.',',')+'% do total</div>'
+    +'<div class="btrack" style="margin-top:8px"><div class="bfill" style="width:'+ip+'%;background:#784212"></div></div></div></div>';
+  if(ant){
+    h+='<div class="stitle">Comparativo vs '+antLbl+'</div><div class="cmprow">'
+      +'<div class="cmpcard"><div class="cmplbl">Peso</div><div class="cmpval">'+fkg(d.tp)+'</div>'
+      +'<div class="cmpvar '+vc(vp)+'">'+fpct(vp)+'</div></div>'
+      +'<div class="cmpcard"><div class="cmplbl">Valor</div><div class="cmpval">'+fR(d.tv)+'</div>'
+      +'<div class="cmpvar '+vc(vv)+'">'+fpct(vv)+'</div></div>'
+      +'<div class="cmpcard"><div class="cmplbl">PM/kg</div><div class="cmpval">R$ '+d.pm.toFixed(2).replace('.',',')+'</div>'
+      +'<div class="cmpvar '+vc(vpm)+'">'+fpct(vpm)+'</div></div></div>';
+  }
+  document.getElementById('sec-resumo').innerHTML=h;
+}
+
+function rList(id,items,tp,tv,cor){
+  const useP=met==='peso',tot=useP?tp:tv;
+  const maxV=items.reduce((m,x)=>Math.max(m,useP?x[1]:x[2]),0);
+  let h='<div class="tog">'
+    +'<div class="tbtn '+(met==='peso'?'on':'')+'" onclick="setMet(\'peso\')">⚖️ Peso (t)</div>'
+    +'<div class="tbtn '+(met==='valor'?'on':'')+'" onclick="setMet(\'valor\')">💰 Valor (R$)</div>'
+    +'</div><div class="blist">';
+  items.forEach(function(item){
+    const val=useP?item[1]:item[2];
+    const pct=tot>0?val/tot*100:0,barW=maxV>0?val/maxV*100:0;
+    h+='<div class="bitem"><div class="brow">'
+      +'<div class="bname">'+item[0]+'</div>'
+      +'<div class="bval">'+(useP?fkg(val):fR(val))+'</div></div>'
+      +'<div class="btrack"><div class="bfill" style="width:'+barW+'%;background:'+cor+'"></div></div>'
+      +'<div class="bpct">'+pct.toFixed(1).replace('.',',')+'% do total</div></div>';
+  });
+  h+='</div>';
+  document.getElementById(id).innerHTML=h;
+}
+
+function rEstados(d,cor){
+  const useP=met==='peso';
+  let h='<div class="tog">'
+    +'<div class="tbtn '+(met==='peso'?'on':'')+'" onclick="setMet(\'peso\')">⚖️ Peso (t)</div>'
+    +'<div class="tbtn '+(met==='valor'?'on':'')+'" onclick="setMet(\'valor\')">💰 Valor (R$)</div>'
+    +'</div><div class="ufgrid">';
+  d.uf.forEach(function(uf){
+    const val=useP?uf[1]:uf[2],tot=useP?d.tp:d.tv;
+    const pct=tot>0?val/tot*100:0;
+    h+='<div class="ufcard"><div class="ufname">'+(uf[0]||'—')+'</div>'
+      +'<div class="ufval">'+(useP?fkg(val):fR(val))+'</div>'
+      +'<div class="ufpct">'+pct.toFixed(1).replace('.',',')+'%</div>'
+      +'<div class="btrack" style="margin-top:6px"><div class="bfill" style="width:'+pct+'%;background:'+cor+'"></div></div></div>';
+  });
+  h+='</div>';
+  document.getElementById('sec-estados').innerHTML=h;
+}
+
+function rEvo(cor,curIdx){
+  const useP=met==='peso';
+  const vals=MESES.map(function(m){return useP?RAW[m].tp:RAW[m].tv;});
+  const maxV=Math.max.apply(null,vals);
+  const ac_tp=MESES.reduce(function(s,m){return s+RAW[m].tp;},0);
+  const ac_tv=MESES.reduce(function(s,m){return s+RAW[m].tv;},0);
+
+  let bars='';
+  MESES.forEach(function(m,i){
+    const h=maxV>0?vals[i]/maxV*88:0;
+    bars+='<div class="bcol" onclick="setMes(\''+m+'\')"><div class="bbar '+(i===curIdx?'cur':'')+'"'
+      +' style="height:'+h+'%;background:'+CORES[i]+';opacity:'+(i===curIdx?1:0.5)+'"></div>'
+      +'<span class="blbl">'+m+'</span></div>';
+  });
+
+  let tbl='';
+  MESES.forEach(function(m,i){
+    const v=vals[i],ant2=i>0?vals[i-1]:null;
+    const vr=ant2!==null?pv(ant2,v):null;
+    tbl+='<div class="bitem"'+(i===curIdx?' style="background:#f0f4ff"':'')+'><div class="brow">'
+      +'<div class="bname"'+(i===curIdx?' style="color:'+CORES[i]+';font-size:13px;font-weight:800"':'')+'>'
+      +m+' 2026</div>'
+      +'<div style="display:flex;align-items:center;gap:8px">'
+      +'<div class="bval">'+(useP?fkg(v):fR(v))+'</div>'
+      +(vr!==null?badge(vr):'')
+      +'</div></div></div>';
+  });
+
+  let h='<div class="tog">'
+    +'<div class="tbtn '+(met==='peso'?'on':'')+'" onclick="setMet(\'peso\')">⚖️ Peso (t)</div>'
+    +'<div class="tbtn '+(met==='valor'?'on':'')+'" onclick="setMet(\'valor\')">💰 Valor (R$)</div>'
+    +'</div>'
+    +'<div class="evowrap"><div class="evotitle">'+(useP?'Volume (t)':'Faturamento (R$)')+' — toque para navegar</div>'
+    +'<div class="chart">'+bars+'</div></div>'
+    +'<div class="stitle">Mês a Mês</div>'
+    +'<div class="blist" style="margin-bottom:14px">'+tbl+'</div>'
+    +'<div class="cards">'
+    +'<div class="card"><div class="clbl">Acumulado Volume</div><div class="cval sm">'+fkg(ac_tp)+'</div></div>'
+    +'<div class="card"><div class="clbl">Acumulado Valor</div><div class="cval sm">'+fR(ac_tv)+'</div></div>'
+    +'</div>';
+  document.getElementById('sec-evolucao').innerHTML=h;
+}
+</script>
+</body>
+</html>
